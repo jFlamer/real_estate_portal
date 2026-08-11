@@ -1,8 +1,9 @@
-from sqlalchemy import func, select
+from sqlalchemy import func, or_, select
 from sqlalchemy.dialects.mysql import insert
 from sqlalchemy.orm import Session
 
 from app.db.models import Listing
+from app.schemas.search import SearchFilters
 
 
 UPSERT_COLUMNS = (
@@ -35,3 +36,68 @@ def upsert_many(session: Session, rows: list[dict]) -> tuple[int, int]:
 
 def count(session: Session) -> int:
     return session.scalar(select(func.count()).select_from(Listing)) or 0
+
+
+SORT_CLAUSES = {
+    "newest": (Listing.created_at.desc(),),
+    "price_asc": (Listing.price.is_(None), Listing.price.asc()),
+    "price_desc": (Listing.price.is_(None), Listing.price.desc()),
+    "area_asc": (Listing.area.is_(None), Listing.area.asc()),
+    "area_desc": (Listing.area.is_(None), Listing.area.desc()),
+}
+
+
+def _conditions(filters: SearchFilters) -> list:
+    conditions = []
+
+    if filters.q:
+        pattern = f"%{filters.q}%"
+        conditions.append(or_(Listing.title.like(pattern), Listing.description.like(pattern)))
+    if filters.city:
+        conditions.append(Listing.city == filters.city)
+    if filters.district:
+        conditions.append(Listing.district == filters.district)
+    if filters.price_min is not None:
+        conditions.append(Listing.price >= filters.price_min)
+    if filters.price_max is not None:
+        conditions.append(Listing.price <= filters.price_max)
+    if filters.area_min is not None:
+        conditions.append(Listing.area >= filters.area_min)
+    if filters.area_max is not None:
+        conditions.append(Listing.area <= filters.area_max)
+    if filters.rooms_min is not None:
+        conditions.append(Listing.rooms >= filters.rooms_min)
+    if filters.bedrooms_min is not None:
+        conditions.append(Listing.bedrooms >= filters.bedrooms_min)
+    if filters.open_kitchen is not None:
+        conditions.append(Listing.open_kitchen.is_(filters.open_kitchen))
+    if filters.market is not None:
+        conditions.append(Listing.market == filters.market)
+
+    return conditions
+
+
+def search(session: Session, filters: SearchFilters) -> tuple[list[Listing], int]:
+    conditions = _conditions(filters)
+
+    total = session.scalar(
+        select(func.count()).select_from(Listing).where(*conditions)
+    ) or 0
+
+    statement = (
+        select(Listing)
+        .where(*conditions)
+        .order_by(*SORT_CLAUSES[filters.sort], Listing.id.desc())
+        .offset((filters.page - 1) * filters.page_size)
+        .limit(filters.page_size)
+    )
+    return list(session.scalars(statement).all()), total
+
+
+def get(session: Session, listing_id: int) -> Listing | None:
+    return session.get(Listing, listing_id)
+
+
+def distinct_cities(session: Session) -> list[str]:
+    statement = select(Listing.city).where(Listing.city.is_not(None)).distinct().order_by(Listing.city)
+    return list(session.scalars(statement).all())
