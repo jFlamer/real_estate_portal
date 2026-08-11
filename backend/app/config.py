@@ -5,5 +5,6 @@ class Settings(BaseSettings):
 
     database_url: str = "mysql+pymysql://root:devpass@localhost:3306/listings"
     gemini_api_key: str | None = None
+    gemini_model: str = "gemini-3.5-flash"
 
 settings = Settings()
