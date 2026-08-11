@@ -190,6 +190,13 @@
         "value": "105.22",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 3,
+      "open_kitchen": false,
+      "layout_confidence": "low",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:21+00:00"
     }
   },
   {
@@ -615,6 +622,13 @@
         "value": "64.70",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": true,
+      "layout_confidence": "low",
+      "parsed_by": "heuristic",
+      "parsed_at": "2026-08-11T18:48:20+00:00"
     }
   },
   {
@@ -1040,6 +1054,13 @@
         "value": "64.96",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": true,
+      "layout_confidence": "low",
+      "parsed_by": "heuristic",
+      "parsed_at": "2026-08-11T18:48:20+00:00"
     }
   },
   {
@@ -1465,6 +1486,13 @@
         "value": "67.72",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": true,
+      "layout_confidence": "low",
+      "parsed_by": "heuristic",
+      "parsed_at": "2026-08-11T18:48:20+00:00"
     }
   },
   {
@@ -1663,6 +1691,13 @@
         "value": "40.00",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 0,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:21+00:00"
     }
   },
   {
@@ -1861,6 +1896,13 @@
         "value": "182.00",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 3,
+      "open_kitchen": true,
+      "layout_confidence": "low",
+      "parsed_by": "heuristic",
+      "parsed_at": "2026-08-11T18:48:21+00:00"
     }
   },
   {
@@ -2034,6 +2076,13 @@
         "value": "66.60",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": true,
+      "layout_confidence": "low",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:21+00:00"
     }
   },
   {
@@ -2202,6 +2251,13 @@
         "value": "32.61",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:21+00:00"
     }
   },
   {
@@ -2555,6 +2611,13 @@
         "value": "57.61",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": true,
+      "layout_confidence": "low",
+      "parsed_by": "heuristic",
+      "parsed_at": "2026-08-11T18:48:20+00:00"
     }
   },
   {
@@ -2908,6 +2971,13 @@
         "value": "26.05",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": true,
+      "layout_confidence": "low",
+      "parsed_by": "heuristic",
+      "parsed_at": "2026-08-11T18:48:20+00:00"
     }
   },
   {
@@ -3261,6 +3331,13 @@
         "value": "27.68",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": true,
+      "layout_confidence": "low",
+      "parsed_by": "heuristic",
+      "parsed_at": "2026-08-11T18:48:20+00:00"
     }
   },
   {
@@ -3444,6 +3521,13 @@
         "value": "46.33",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:21+00:00"
     }
   },
   {
@@ -3642,6 +3726,13 @@
         "value": "55.15",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 3,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:21+00:00"
     }
   },
   {
@@ -3825,6 +3916,13 @@
         "value": "39.45",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:21+00:00"
     }
   },
   {
@@ -3988,6 +4086,13 @@
         "value": "50.90",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:21+00:00"
     }
   },
   {
@@ -4201,6 +4306,13 @@
         "value": "79.59",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:21+00:00"
     }
   },
   {
@@ -4379,6 +4491,13 @@
         "value": "64.45",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:26+00:00"
     }
   },
   {
@@ -4737,6 +4856,13 @@
         "value": "70.36",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:26+00:00"
     }
   },
   {
@@ -5095,6 +5221,13 @@
         "value": "47.57",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:26+00:00"
     }
   },
   {
@@ -5453,6 +5586,13 @@
         "value": "91.01",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 3,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:26+00:00"
     }
   },
   {
@@ -5676,6 +5816,13 @@
         "value": "66.67",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:26+00:00"
     }
   },
   {
@@ -5854,6 +6001,13 @@
         "value": "52.00",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:26+00:00"
     }
   },
   {
@@ -6067,6 +6221,13 @@
         "value": "101.80",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 3,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:26+00:00"
     }
   },
   {
@@ -6255,6 +6416,13 @@
         "value": "163.00",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 4,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:26+00:00"
     }
   },
   {
@@ -6438,6 +6606,13 @@
         "value": "70.00",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 3,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:26+00:00"
     }
   },
   {
@@ -6611,6 +6786,13 @@
         "value": "162.48",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 4,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:26+00:00"
     }
   },
   {
@@ -6774,6 +6956,13 @@
         "value": "25.80",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:31+00:00"
     }
   },
   {
@@ -6937,6 +7126,13 @@
         "value": "25.38",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 0,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:31+00:00"
     }
   },
   {
@@ -7105,6 +7301,13 @@
         "value": "31.00",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:31+00:00"
     }
   },
   {
@@ -7278,6 +7481,13 @@
         "value": "51.60",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:31+00:00"
     }
   },
   {
@@ -7466,6 +7676,13 @@
         "value": "60.50",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 3,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:31+00:00"
     }
   },
   {
@@ -7649,6 +7866,13 @@
         "value": "29.00",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:31+00:00"
     }
   },
   {
@@ -7832,6 +8056,13 @@
         "value": "36.00",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:31+00:00"
     }
   },
   {
@@ -8005,6 +8236,13 @@
         "value": "38.20",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:31+00:00"
     }
   },
   {
@@ -8188,6 +8426,13 @@
         "value": "58.90",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:31+00:00"
     }
   },
   {
@@ -8396,6 +8641,13 @@
         "value": "50.05",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 3,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:31+00:00"
     }
   },
   {
@@ -8584,6 +8836,13 @@
         "value": "74.32",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:36+00:00"
     }
   },
   {
@@ -8762,6 +9021,13 @@
         "value": "54.36",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:36+00:00"
     }
   },
   {
@@ -8935,6 +9201,13 @@
         "value": "38.40",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:36+00:00"
     }
   },
   {
@@ -9128,6 +9401,13 @@
         "value": "46.61",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": true,
+      "layout_confidence": "low",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:36+00:00"
     }
   },
   {
@@ -9336,6 +9616,13 @@
         "value": "37.35",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:36+00:00"
     }
   },
   {
@@ -9494,6 +9781,13 @@
         "value": "69.36",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:36+00:00"
     }
   },
   {
@@ -9692,6 +9986,13 @@
         "value": "37.79",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:36+00:00"
     }
   },
   {
@@ -9870,6 +10171,13 @@
         "value": "78.67",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 3,
+      "open_kitchen": true,
+      "layout_confidence": "low",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:36+00:00"
     }
   },
   {
@@ -10073,6 +10381,13 @@
         "value": "127.06",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 4,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:36+00:00"
     }
   },
   {
@@ -10276,6 +10591,13 @@
         "value": "199.04",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 5,
+      "open_kitchen": true,
+      "layout_confidence": "low",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:36+00:00"
     }
   },
   {
@@ -10449,6 +10771,13 @@
         "value": "31.50",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 0,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:41+00:00"
     }
   },
   {
@@ -10647,6 +10976,13 @@
         "value": "59.90",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:41+00:00"
     }
   },
   {
@@ -10995,6 +11331,13 @@
         "value": "69.57",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:41+00:00"
     }
   },
   {
@@ -11343,6 +11686,13 @@
         "value": "38.44",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:41+00:00"
     }
   },
   {
@@ -11691,6 +12041,13 @@
         "value": "38.51",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:41+00:00"
     }
   },
   {
@@ -11899,6 +12256,13 @@
         "value": "33.62",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 0,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:41+00:00"
     }
   },
   {
@@ -12097,6 +12461,13 @@
         "value": "112.75",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 4,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:41+00:00"
     }
   },
   {
@@ -12310,6 +12681,13 @@
         "value": "63.60",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:41+00:00"
     }
   },
   {
@@ -12488,6 +12866,13 @@
         "value": "71.82",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 3,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:41+00:00"
     }
   },
   {
@@ -12846,6 +13231,13 @@
         "value": "54.84",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:41+00:00"
     }
   },
   {
@@ -13204,6 +13596,13 @@
         "value": "45",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:46+00:00"
     }
   },
   {
@@ -13562,6 +13961,13 @@
         "value": "56.96",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": true,
+      "layout_confidence": "low",
+      "parsed_by": "heuristic",
+      "parsed_at": "2026-08-11T18:48:20+00:00"
     }
   },
   {
@@ -13765,6 +14171,13 @@
         "value": "60.00",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 3,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:46+00:00"
     }
   },
   {
@@ -13923,6 +14336,13 @@
         "value": "255.49",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 6,
+      "open_kitchen": null,
+      "layout_confidence": "low",
+      "parsed_by": "heuristic",
+      "parsed_at": "2026-08-11T18:48:46+00:00"
     }
   },
   {
@@ -14086,6 +14506,13 @@
         "value": "54.33",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:46+00:00"
     }
   },
   {
@@ -14304,6 +14731,13 @@
         "value": "46.00",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:46+00:00"
     }
   },
   {
@@ -14482,6 +14916,13 @@
         "value": "47.00",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 3,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:46+00:00"
     }
   },
   {
@@ -14665,6 +15106,13 @@
         "value": "45.00",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:46+00:00"
     }
   },
   {
@@ -15162,6 +15610,13 @@
         "value": "64.94",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:46+00:00"
     }
   },
   {
@@ -15659,6 +16114,13 @@
         "value": "65.29",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:46+00:00"
     }
   },
   {
@@ -16151,6 +16613,13 @@
         "value": "62.05",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:46+00:00"
     }
   },
   {
@@ -16354,6 +16823,13 @@
         "value": "28.65",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 0,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:51+00:00"
     }
   },
   {
@@ -16542,6 +17018,13 @@
         "value": "39.20",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:51+00:00"
     }
   },
   {
@@ -16735,6 +17218,13 @@
         "value": "33.00",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:51+00:00"
     }
   },
   {
@@ -16908,6 +17398,13 @@
         "value": "31.60",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:51+00:00"
     }
   },
   {
@@ -17076,6 +17573,13 @@
         "value": "62.42",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:51+00:00"
     }
   },
   {
@@ -17264,6 +17768,13 @@
         "value": "34.80",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:51+00:00"
     }
   },
   {
@@ -17442,6 +17953,13 @@
         "value": "42.67",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:51+00:00"
     }
   },
   {
@@ -17635,6 +18153,13 @@
         "value": "60.07",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 3,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:51+00:00"
     }
   },
   {
@@ -17803,6 +18328,13 @@
         "value": "54.70",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:51+00:00"
     }
   },
   {
@@ -18016,6 +18548,13 @@
         "value": "73.16",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 3,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:51+00:00"
     }
   },
   {
@@ -18229,6 +18768,13 @@
         "value": "59.83",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:56+00:00"
     }
   },
   {
@@ -18407,6 +18953,13 @@
         "value": "58.57",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:56+00:00"
     }
   },
   {
@@ -18570,6 +19123,13 @@
         "value": "47.00",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:56+00:00"
     }
   },
   {
@@ -18743,6 +19303,13 @@
         "value": "31.00",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:56+00:00"
     }
   },
   {
@@ -18911,6 +19478,13 @@
         "value": "48.90",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:56+00:00"
     }
   },
   {
@@ -19084,6 +19658,13 @@
         "value": "47.40",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 3,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:56+00:00"
     }
   },
   {
@@ -19267,6 +19848,13 @@
         "value": "61.79",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:56+00:00"
     }
   },
   {
@@ -19450,6 +20038,13 @@
         "value": "39.67",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:56+00:00"
     }
   },
   {
@@ -19643,6 +20238,13 @@
         "value": "56.48",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": false,
+      "layout_confidence": "low",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:56+00:00"
     }
   },
   {
@@ -19831,6 +20433,13 @@
         "value": "47.30",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:48:56+00:00"
     }
   },
   {
@@ -20004,6 +20613,13 @@
         "value": "59.19",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:49:07+00:00"
     }
   },
   {
@@ -20192,6 +20808,13 @@
         "value": "72.00",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:49:07+00:00"
     }
   },
   {
@@ -20385,6 +21008,13 @@
         "value": "64.00",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:49:07+00:00"
     }
   },
   {
@@ -20578,6 +21208,13 @@
         "value": "93.40",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 4,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:49:07+00:00"
     }
   },
   {
@@ -20781,6 +21418,13 @@
         "value": "60.00",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:49:07+00:00"
     }
   },
   {
@@ -20969,6 +21613,13 @@
         "value": "80.16",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:49:07+00:00"
     }
   },
   {
@@ -21147,6 +21798,13 @@
         "value": "60.00",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:49:07+00:00"
     }
   },
   {
@@ -21345,6 +22003,13 @@
         "value": "84.10",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": false,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:49:07+00:00"
     }
   },
   {
@@ -21703,6 +22368,13 @@
         "value": "72.52",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 3,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:49:07+00:00"
     }
   },
   {
@@ -22061,6 +22733,13 @@
         "value": "40.01",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:49:07+00:00"
     }
   },
   {
@@ -22419,6 +23098,13 @@
         "value": "46.51",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:49:07+00:00"
     }
   },
   {
@@ -22607,6 +23293,13 @@
         "value": "90.40",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 2,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:49:07+00:00"
     }
   },
   {
@@ -22800,6 +23493,13 @@
         "value": "39.42",
         "unitCode": "MTR"
       }
+    },
+    "layout": {
+      "bedrooms": 1,
+      "open_kitchen": true,
+      "layout_confidence": "high",
+      "parsed_by": "llm",
+      "parsed_at": "2026-08-11T18:49:07+00:00"
     }
   }
 ]

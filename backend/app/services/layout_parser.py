@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import logging
 import re
 import time
@@ -18,33 +19,40 @@ KITCHEN_SLUGS = {
 OPEN_KITCHEN_RE = re.compile(r"aneks\w*\s+kuchen|kuchni\w*\s+otwart|salon\w*\s+z\s+kuchni", re.I)
 CLOSED_KITCHEN_RE = re.compile(r"oddzieln\w+\s+kuchni|osobn\w+\s+kuchni|kuchni\w*\s+zamkni", re.I)
 
-MODEL_TIMEOUT_S = 30
+MIN_DESCRIPTION_CHARS = 300
+MAX_DESCRIPTION_CHARS = 4000
+BATCH_SIZE = 10
 MAX_RETRIES = 4
-MIN_INTERVAL_S = 4.0  #free tier Gemini Flash: 15 req/min
+MIN_INTERVAL_S = 5.
 
-PROMPT = """Jesteś analitykiem ogłoszeń nieruchomości. Na podstawie opisu ustal układ mieszkania.
+PROMPT = """Jesteś analitykiem ogłoszeń nieruchomości. Dla KAŻDEJ oferty poniżej ustal układ mieszkania.
 
 Definicje:
 - bedrooms: liczba osobnych, zamykanych pomieszczeń nadających się na sypialnię.
   NIE licz salonu ani pokoju dziennego. Pokój przechodni się NIE liczy.
+  Uwaga na mieszkania dwupoziomowe — zsumuj pokoje ze wszystkich poziomów.
 - open_kitchen: true, gdy kuchnia jest połączona z salonem (aneks kuchenny,
   salon z kuchnią). false, gdy kuchnia jest osobnym pomieszczeniem.
 - confidence: "high" tylko gdy opis wprost opisuje układ pomieszczeń.
   "low", gdy zgadujesz z ogólników marketingowych.
 
-Liczba pokoi z ogłoszenia: {rooms}
-Opis oferty:
-\"\"\"
-{description}
-\"\"\"
+Zwróć dokładnie po jednym wyniku na ofertę, z zachowaniem numeru `index`.
 
-Zwróć wyłącznie JSON zgodny ze schematem."""
+{offers}"""
+
+OFFER_TEMPLATE = """--- OFERTA index={index} (liczba pokoi z ogłoszenia: {rooms}) ---
+{description}"""
 
 
 class Layout(BaseModel):
+    index: int
     bedrooms: int = Field(ge=0, le=10)
     open_kitchen: bool
     confidence: Literal["high", "low"]
+
+
+class DailyQuotaExhausted(RuntimeError):
+    items: list[Layout]
 
 
 def kitchen_from_url(source_url: str | None) -> bool | None:
@@ -71,6 +79,49 @@ def heuristic_layout(description: str, rooms: int | None, source_url: str | None
     return {"bedrooms": bedrooms, "open_kitchen": kitchen, "layout_confidence": "low"}
 
 
+def is_plausible(layout: Layout, rooms: int | None) -> bool:
+    if rooms is None:
+        return True
+    if layout.bedrooms > rooms:
+        return False
+    return not (rooms >= 2 and layout.bedrooms == 0)
+
+
+def merge_layout(layout: Layout, source_url: str | None) -> dict:
+    kitchen = kitchen_from_url(source_url)
+    return {
+        "bedrooms": layout.bedrooms,
+        "open_kitchen": layout.open_kitchen if kitchen is None else kitchen,
+        "layout_confidence": layout.confidence,
+    }
+
+
+def _to_layouts(parsed: object, text: str | None) -> dict[int, Layout]:
+    if parsed is None and text:
+        parsed = json.loads(text)
+
+    if isinstance(parsed, dict):
+        parsed = parsed.get("items", parsed)
+    if isinstance(parsed, (Layout, dict)):
+        parsed = [parsed]
+    if not isinstance(parsed, list):
+        raise ValidationError.from_exception_data("Layout", [])
+
+    layouts = [item if isinstance(item, Layout) else Layout.model_validate(item) for item in parsed]
+    return {item.index: item for item in layouts}
+
+
+def _is_daily_quota(exc: Exception) -> bool:
+    details = getattr(exc, "details", None)
+    if not isinstance(details, dict):
+        return False
+    for detail in details.get("error", {}).get("details", []):
+        for violation in detail.get("violations", []) or []:
+            if "PerDay" in str(violation.get("quotaId", "")):
+                return True
+    return False
+
+
 class GeminiLayoutParser:
     def __init__(self, api_key: str, model: str = "gemini-3.5-flash") -> None:
         from google import genai
@@ -85,28 +136,34 @@ class GeminiLayoutParser:
             time.sleep(MIN_INTERVAL_S - elapsed)
         self._last_call = time.monotonic()
 
-    def parse(self, description: str, rooms: int | None) -> Layout | None:
+    def parse_batch(self, offers: list[dict]) -> dict[int,Layout] | None:
         from google.genai import errors, types
+
+        if not offers:
+            return {}
+
+        blocks = "\n\n".join(
+            OFFER_TEMPLATE.format(
+                index=offer["index"],
+                rooms=offer.get("rooms") if offer.get("rooms") is not None else "nieznana",
+                description=(offer.get("description") or "")[:MAX_DESCRIPTION_CHARS],
+            )
+            for offer in offers
+        )
 
         config = types.GenerateContentConfig(
             response_mime_type="application/json",
-            response_schema=Layout,
+            response_schema=list[Layout],
             temperature=0.0,
-            thinking_config=types.ThinkingConfig(thinking_budget=0),
         )
-        prompt = PROMPT.format(rooms=rooms if rooms is not None else "nieznana",
-                               description=description[:6000])
 
         for attempt in range(MAX_RETRIES):
             self._throttle()
             try:
                 response = self._client.models.generate_content(
-                    model=self._model, contents=prompt, config=config
+                    model=self._model, contents=PROMPT.format(offers=blocks), config=config
                 )
-                parsed = response.parsed
-                return parsed if isinstance(parsed, Layout) else Layout.model_validate_json(
-                    response.text
-                )
+                return _to_layouts(response.parsed, response.text)
             except ValidationError as exc:
                 logger.warning("LLM returned JSON mismatching the scheme: %s", exc)
                 return None
@@ -114,40 +171,16 @@ class GeminiLayoutParser:
                 if exc.code != 429:
                     logger.error("Wrong query (%s), using heuristics", exc.code)
                     return None
-                wait = 2 ** attempt
-                logger.warning("Limit zapytań, ponawiam za %ss", wait)
+                if _is_daily_quota(exc):
+                    raise DailyQuotaExhausted from exc
+                wait = 2 ** attempt * 10
+                logger.warning("To many requests, trying again in %ss", wait)
                 time.sleep(wait)
             except Exception as exc:
                 wait = 2**attempt
                 logger.warning("Gemini unreachable (%s), trying again in %ss", exc, wait)
                 time.sleep(wait)
         return None
-
-
-def is_plausible(layout: Layout, rooms: int | None) -> bool:
-    if rooms is None:
-        return True
-    return layout.bedrooms <= rooms
-
-
-def parse_layout(
-    description: str,
-    rooms: int | None,
-    source_url: str | None = None,
-    parser: GeminiLayoutParser | None = None,
-) -> dict:
-    if parser is not None and len(description or "") >= 300:
-        layout = parser.parse(description, rooms)
-        if layout is not None and is_plausible(layout, rooms):
-            kitchen = kitchen_from_url(source_url)
-            return {
-                "bedrooms": layout.bedrooms,
-                "open_kitchen": layout.open_kitchen if kitchen is None else kitchen,
-                "layout_confidence": layout.confidence,
-            }
-        logger.info("LLM did not give reliable output, trying with heuristic")
-
-    return heuristic_layout(description, rooms, source_url)
 
 
 def build_llm_parser() -> GeminiLayoutParser | None:
