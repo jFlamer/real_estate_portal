@@ -25,6 +25,8 @@ HEADERS = {
 REQUEST_DELAY_S = 1.5
 MAX_RETRIES = 3
 
+TRANSACTIONS = {"sale": "sprzedaz", "rent": "wynajem"}
+
 class ScrapeError(RuntimeError):
     pass
 
@@ -37,13 +39,13 @@ def _get(client: httpx.Client, url: str) -> str:
             response.raise_for_status()
             return response.text
         except httpx.HTTPError as exc:
-            lats_error = exc
+            last_error = exc
             time.sleep(2**attempt)
     raise ScrapeError(f"Could not download {url}: {last_error}")
 
 
-def build_search_url(city: str, page: int) -> str:
-    query = f"3,mieszkanie,sprzedaz,,{quote(city)}"
+def build_search_url(city: str, page: int, transaction: str = "sale") -> str:
+    query = f"3,mieszkanie,{TRANSACTIONS[transaction]},,{quote(city)}"
     return f"{SEARCH_URL}?{query}" + (f"&p={page}" if page > 1 else "")
 
 def extract_offer_urls(html: str) -> list[str]:
@@ -80,7 +82,7 @@ def extract_description(html: str) -> str:
     return re.sub(r"[ \t\xa0]+", " ", text).strip()
 
 
-def parse_offer_page(html: str, url: str) -> dict:
+def parse_offer_page(html: str, url: str, transaction: str = "sale") -> dict:
     blocks = extract_ld_json(html)
     apartment = next((b for b in blocks if b.get("@type") == "Apartment"), None)
     if apartment is None:
@@ -91,6 +93,7 @@ def parse_offer_page(html: str, url: str) -> dict:
     return {
         "source": SOURCE,
         "source_url": url,
+        "transaction_type": transaction,
         "scraped_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "title": apartment.get("name"),
         "page_title": web_page.get("name"),
@@ -99,7 +102,7 @@ def parse_offer_page(html: str, url: str) -> dict:
     }
 
 
-def scrape(city: str, limit: int, max_pages: int = 10) -> list[dict]:
+def scrape(city: str, limit: int, transaction: str = "sale", max_pages: int = 10) -> list[dict]:
     records: list[dict] = []
     visited: set[str] = set()
     failures = 0
@@ -109,7 +112,7 @@ def scrape(city: str, limit: int, max_pages: int = 10) -> list[dict]:
             if len(records) >= limit:
                 break
 
-            search_html = _get(client, build_search_url(city, page))
+            search_html = _get(client, build_search_url(city, page, transaction))
             offer_urls = [u for u in extract_offer_urls(search_html) if u not in visited]
             if not offer_urls:
                 print(f"[scrape] page {page}: nothing new, ending")
@@ -122,7 +125,7 @@ def scrape(city: str, limit: int, max_pages: int = 10) -> list[dict]:
                 visited.add(url)
                 time.sleep(REQUEST_DELAY_S)
                 try:
-                    records.append(parse_offer_page(_get(client, url), url))
+                    records.append(parse_offer_page(_get(client, url), url, transaction))
                 except ScrapeError as exc:
                     failures += 1
                     print(f"[scrape] skip {url}: {exc}")

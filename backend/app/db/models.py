@@ -28,6 +28,10 @@ class Listing(Base):
     source: Mapped[str] = mapped_column(String(64))
     source_url: Mapped[str] = mapped_column(String(512), unique=True)
 
+    transaction_type: Mapped[str] = mapped_column(
+        Enum("sale", "rent", name="transaction_type"), default="sale"
+    )
+
     title: Mapped[str | None] = mapped_column(String(255))
     description: Mapped[str] = mapped_column(Text)
 
@@ -35,6 +39,9 @@ class Listing(Base):
     price_status: Mapped[str] = mapped_column(
         Enum("fixed", "negotiable", "unknown", name="price_status"), default="unknown"
     )
+    # opłata administracyjna podana w opisie; NULL = ogłoszenie o niej milczy
+    # i wtedy mówimy o tym wprost, zamiast zgadywać
+    monthly_fee: Mapped[int | None] = mapped_column(Integer)
 
     area: Mapped[float | None] = mapped_column(DECIMAL(6, 1))
     rooms: Mapped[int | None] = mapped_column(SmallInteger)
@@ -55,6 +62,12 @@ class Listing(Base):
         Enum("primary", "secondary", "unknown", name="market"), default="unknown"
     )
 
+    # zdjęcia i współrzędne pochodzą wprost z ld+json portalu — trzymamy URL-e,
+    # nie kopie plików: to nie nasze treści i nie chcemy ich hostować
+    image_urls: Mapped[list | None] = mapped_column(JSON)
+    latitude: Mapped[float | None] = mapped_column(DECIMAL(9, 6))
+    longitude: Mapped[float | None] = mapped_column(DECIMAL(9, 6))
+
     dedup_hash: Mapped[str] = mapped_column(String(64))
     raw_json: Mapped[dict] = mapped_column(JSON)
 
@@ -64,11 +77,11 @@ class Listing(Base):
     )
 
     __table_args__ = (
-        Index("ix_listings_city_price", "city", "price"),
+        Index("ix_listings_city_price", "transaction_type", "city", "price"),
         Index("ix_listings_area", "area"),
         Index("ix_listings_bedrooms", "bedrooms"),
         Index("ix_listings_dedup_hash", "dedup_hash"),
     )
 
     def __repr__(self) -> str:
-        return f"<Listing {self.id} {self.city} {self.area}m2 {self.price}pln>"
+        return f"<Listing {self.id} {self.transaction_type} {self.city} {self.area}m2 {self.price}pln>"

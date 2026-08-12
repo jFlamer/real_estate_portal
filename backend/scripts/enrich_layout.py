@@ -6,6 +6,7 @@ from pathlib import Path
 
 from app.services.layout_parser import (
     BATCH_SIZE,
+    LAYOUT_SCHEMA_VERSION,
     MIN_DESCRIPTION_CHARS,
     build_llm_parser,
     heuristic_layout,
@@ -22,8 +23,15 @@ DEFAULT_RAW = Path(__file__).resolve().parent.parent / "data" / "raw.json"
 def _stamp(layout: dict, parsed_by: str) -> dict:
     return layout | {
         "parsed_by": parsed_by,
+        "schema_version": LAYOUT_SCHEMA_VERSION,
         "parsed_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
     }
+
+
+def _is_current(record: dict) -> bool:
+    """Czy oferta ma układ wyliczony aktualną wersją kontraktu ekstrakcji."""
+    layout = record.get("layout") or {}
+    return layout.get("schema_version") == LAYOUT_SCHEMA_VERSION
 
 
 def main() -> None:
@@ -45,7 +53,7 @@ def main() -> None:
 
     todo: list[int] = []
     for index, record in enumerate(records):
-        if record.get("layout") and not args.force:
+        if _is_current(record) and not args.force:
             continue
         description = record.get("description") or ""
         rooms = record.get("ld_json", {}).get("numberOfRooms")

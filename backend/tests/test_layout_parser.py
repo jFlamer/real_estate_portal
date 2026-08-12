@@ -9,7 +9,7 @@ from app.services.layout_parser import (
     is_plausible,
     kitchen_from_url,
     merge_layout,
-    is_daily_quota,
+    _is_daily_quota,
     _to_layouts,
 )
 
@@ -105,6 +105,7 @@ class TestMergeLayout:
             "bedrooms": 2,
             "open_kitchen": True,
             "layout_confidence": "high",
+            "monthly_fee": None,
         }
 
     def test_slug_url_wygrywa_z_llm_przy_kuchni(self):

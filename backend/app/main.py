@@ -1,5 +1,10 @@
-from fastapi import FastAPI
+import logging
+
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from sqlalchemy.exc import OperationalError
+
 
 from app.api import listings
 
@@ -13,6 +18,18 @@ app.add_middleware(
 )
 
 app.include_router(listings.router)
+
+
+logger = logging.getLogger(__name__)
+
+
+@app.exception_handler(OperationalError)
+def handle_db_down(request: Request, exc: OperationalError) -> JSONResponse:
+    ("Database unreachable: %s", exc)
+    return JSONResponse(
+        status_code=503,
+        content={"detail": "Check if MySQL contener is running"},
+    )
 
 @app.get("/health")
 def health() -> dict[str, str]:

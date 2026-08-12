@@ -153,18 +153,23 @@ class TestDetectMarket:
 
 class TestDedupHash:
     def test_te_same_dane_daja_ten_sam_hash(self):
-        a = make_dedup_hash("Kraków", "ul. Długa 5", 45.5, 2, 500_000)
-        b = make_dedup_hash("Kraków", "ul. Długa 5", 45.5, 2, 500_000)
+        a = make_dedup_hash("sale", "Kraków", "ul. Długa 5", 45.5, 2, 500_000)
+        b = make_dedup_hash("sale", "Kraków", "ul. Długa 5", 45.5, 2, 500_000)
         assert a == b
 
     def test_ignoruje_wielkosc_liter_i_spacje(self):
-        a = make_dedup_hash("Kraków", "ul. Długa 5", 45.5, 2, 500_000)
-        b = make_dedup_hash("kraków", "  ul.  Długa 5 ", 45.5, 2, 500_000)
+        a = make_dedup_hash("sale", "Kraków", "ul. Długa 5", 45.5, 2, 500_000)
+        b = make_dedup_hash("sale", "kraków", "  ul.  Długa 5 ", 45.5, 2, 500_000)
         assert a == b
 
     def test_inna_cena_daje_inny_hash(self):
-        a = make_dedup_hash("Kraków", "ul. Długa 5", 45.5, 2, 500_000)
-        b = make_dedup_hash("Kraków", "ul. Długa 5", 45.5, 2, 600_000)
+        a = make_dedup_hash("sale", "Kraków", "ul. Długa 5", 45.5, 2, 500_000)
+        b = make_dedup_hash("sale", "Kraków", "ul. Długa 5", 45.5, 2, 600_000)
+        assert a != b
+
+    def test_sprzedaz_i_wynajem_to_osobne_oferty(self):
+        a = make_dedup_hash("sale", "Kraków", "ul. Długa 5", 45.5, 2, 500_000)
+        b = make_dedup_hash("rent", "Kraków", "ul. Długa 5", 45.5, 2, 500_000)
         assert a != b
 
 
@@ -198,6 +203,12 @@ class TestNormalize:
         assert row["district"] == "Grzegórzki"
         assert row["market"] == "secondary"
         assert len(row["dedup_hash"]) == 64
+
+    def test_stare_oferty_bez_pola_to_sprzedaz(self, record):
+        assert normalize(record)["transaction_type"] == "sale"
+
+    def test_czyta_typ_transakcji(self, record):
+        assert normalize(record | {"transaction_type": "rent"})["transaction_type"] == "rent"
 
     def test_zachowuje_surowy_rekord(self, record):
         assert normalize(record)["raw_json"] == record

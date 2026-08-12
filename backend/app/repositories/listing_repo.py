@@ -7,11 +7,12 @@ from app.schemas.search import SearchFilters
 
 
 UPSERT_COLUMNS = (
-    "source", "title", "description", "price", "price_status", "area", "rooms", "floor",
+    "source", "transaction_type", "title", "description", "price", "price_status",
+    "monthly_fee", "area", "rooms", "floor",
     "bedrooms", "open_kitchen", "layout_confidence", "layout_source",
-    "city", "district", "market", "dedup_hash", "raw_json",
+    "city", "district", "market", "image_urls", "latitude", "longitude",
+    "dedup_hash", "raw_json",
 )
-
 
 def upsert_many(session: Session, rows: list[dict]) -> tuple[int, int]:
     if not rows:
@@ -48,7 +49,7 @@ SORT_CLAUSES = {
 
 
 def _conditions(filters: SearchFilters) -> list:
-    conditions = []
+    conditions = [Listing.transaction_type == filters.transaction_type]
 
     if filters.q:
         pattern = f"%{filters.q}%"
@@ -98,6 +99,6 @@ def get(session: Session, listing_id: int) -> Listing | None:
     return session.get(Listing, listing_id)
 
 
-def distinct_cities(session: Session) -> list[str]:
-    statement = select(Listing.city).where(Listing.city.is_not(None)).distinct().order_by(Listing.city)
+def distinct_cities(session: Session, transaction_type: str = "sale") -> list[str]:
+    statement = select(Listing.city).where(Listing.city.is_not(None), Listing.transaction_type == transaction_type).distinct().order_by(Listing.city)
     return list(session.scalars(statement).all())

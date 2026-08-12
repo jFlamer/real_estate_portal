@@ -19,6 +19,10 @@ KITCHEN_SLUGS = {
 OPEN_KITCHEN_RE = re.compile(r"aneks\w*\s+kuchen|kuchni\w*\s+otwart|salon\w*\s+z\s+kuchni", re.I)
 CLOSED_KITCHEN_RE = re.compile(r"oddzieln\w+\s+kuchni|osobn\w+\s+kuchni|kuchni\w*\s+zamkni", re.I)
 
+# podbij przy każdej zmianie kontraktu ekstrakcji — enrich przeliczy wtedy
+# oferty zapisane starszą wersją, zamiast je pomijać jako „już gotowe"
+LAYOUT_SCHEMA_VERSION = 2
+
 MIN_DESCRIPTION_CHARS = 300
 MAX_DESCRIPTION_CHARS = 4000
 BATCH_SIZE = 10
@@ -35,6 +39,11 @@ Definicje:
   salon z kuchnią). false, gdy kuchnia jest osobnym pomieszczeniem.
 - confidence: "high" tylko gdy opis wprost opisuje układ pomieszczeń.
   "low", gdy zgadujesz z ogólników marketingowych.
+- monthly_fee: stała miesięczna opłata podana W OPISIE obok ceny — czynsz
+  administracyjny do spółdzielni lub wspólnoty, także gdy ogłoszenie łączy go
+  z mediami. Podaj samą liczbę w złotych.
+  null, gdy opis nie podaje żadnej kwoty. NIE licz kaucji ani ceny najmu.
+  NIE szacuj i NIE przeliczaj z metrażu — brak danych to null.
 
 Zwróć dokładnie po jednym wyniku na ofertę, z zachowaniem numeru `index`.
 
@@ -49,10 +58,13 @@ class Layout(BaseModel):
     bedrooms: int = Field(ge=0, le=10)
     open_kitchen: bool
     confidence: Literal["high", "low"]
+    # None, gdy ogłoszenie nie podaje kwoty — wtedy UI mówi „nie podano"
+    # zamiast sugerować, że opłat nie ma
+    monthly_fee: int | None = Field(default=None, ge=0, le=20_000)
 
 
 class DailyQuotaExhausted(RuntimeError):
-    items: list[Layout]
+    """Wyczerpany DOBOWY limit zapytań — ponawianie w tym przebiegu nie ma sensu."""
 
 
 def kitchen_from_url(source_url: str | None) -> bool | None:
@@ -76,7 +88,13 @@ def heuristic_layout(description: str, rooms: int | None, source_url: str | None
             kitchen = False
 
     bedrooms = max(rooms - 1, 0) if rooms is not None else None
-    return {"bedrooms": bedrooms, "open_kitchen": kitchen, "layout_confidence": "low"}
+    # opłat administracyjnych nie da się wyliczyć z niczego — bez LLM zostaje brak
+    return {
+        "bedrooms": bedrooms,
+        "open_kitchen": kitchen,
+        "layout_confidence": "low",
+        "monthly_fee": None,
+    }
 
 
 def is_plausible(layout: Layout, rooms: int | None) -> bool:
@@ -93,6 +111,7 @@ def merge_layout(layout: Layout, source_url: str | None) -> dict:
         "bedrooms": layout.bedrooms,
         "open_kitchen": layout.open_kitchen if kitchen is None else kitchen,
         "layout_confidence": layout.confidence,
+        "monthly_fee": layout.monthly_fee,
     }
 
 

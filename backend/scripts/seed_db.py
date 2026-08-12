@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 DEFAULT_RAW = Path(__file__).resolve().parent.parent / "data" / "raw.json"
 
-LAYOUT_KEYS = ("bedrooms", "open_kitchen", "layout_confidence")
+LAYOUT_KEYS = ("bedrooms", "open_kitchen", "layout_confidence", "monthly_fee")
 
 
 def build_row(record: dict) -> dict:

@@ -1,5 +1,5 @@
 from math import ceil
-from typing import Annotated
+from typing import Annotated, Literal
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
@@ -14,7 +14,7 @@ router = APIRouter(prefix="/listings", tags=["listings"])
 SessionDep = Annotated[Session, Depends(get_session)]
 
 
-@router.get("", response_model=Page[ListingSummary], summary="Lista ofert z filtrami")
+@router.get("", response_model=Page[ListingSummary], summary="Offers list with filters")
 def list_listings(
     filters: Annotated[SearchFilters, Query()], session: SessionDep) -> Page[ListingSummary]:
     listings, total = listing_repo.search(session, filters)
@@ -28,8 +28,8 @@ def list_listings(
 
 
 @router.get("/cities", response_model=list[str], summary="Cities in the database")
-def list_cities(session: SessionDep) -> list[str]:
-    return listing_repo.distinct_cities(session)
+def list_cities(session: SessionDep, transaction_type: Literal["sale", "rent"] = "sale") -> list[str]:
+    return listing_repo.distinct_cities(session, transaction_type)
 
 
 @router.get("/{listing_id}", response_model=ListingDetail, summary="Ofers details")

@@ -6,6 +6,8 @@ SortOption = Literal["newest", "price_asc", "price_desc", "area_asc", "area_desc
 
 
 class SearchFilters(BaseModel):
+    transaction_type: Literal["sale", "rent"] = "sale"
+
     q: str | None = Field(default=None, max_length=200, description="phrase in title or description")
 
     city: str | None = Field(default=None, max_length=128)

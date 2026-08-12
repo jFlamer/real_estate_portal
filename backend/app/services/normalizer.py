@@ -122,8 +122,9 @@ def detect_market(record: dict) -> str:
     return "secondary" if record.get("ld_json", {}).get("address", {}).get("streetAddress") else "unknown"
 
 
-def make_dedup_hash(city: str | None, street: str | None, area: float | None, rooms: int | None, price: int | None) -> str:
+def make_dedup_hash(transaction: str, city: str | None, street: str | None, area: float | None, rooms: int | None, price: int | None) -> str:
     parts = [
+        transaction,
         (city or "").strip().lower(),
         re.sub(r"\s+", " ", (street or "").strip().lower()),
         f"{area:.1f}" if area is not None else "",
@@ -133,19 +134,41 @@ def make_dedup_hash(city: str | None, street: str | None, area: float | None, ro
     return hashlib.sha256("|".join(parts).encode("utf-8")).hexdigest()
 
 
+def parse_images(ld: dict) -> list[str]:
+    """Zdjęcia oferty. Portal daje je jako listę URL-i; pojedynczy string też
+    bywa poprawną wartością wg schema.org, więc przyjmujemy oba kształty."""
+    raw = ld.get("image")
+    if not raw:
+        return []
+    urls = raw if isinstance(raw, list) else [raw]
+    return [url for url in urls if isinstance(url, str) and url.startswith("http")]
+
+
+def parse_coordinates(ld: dict) -> tuple[float, float] | tuple[None, None]:
+    """Współrzędne oferty; puste stringi (21 ofert deweloperskich) → brak."""
+    geo = ld.get("geo") or {}
+    try:
+        return (float(geo.get("latitude")), float(geo.get("longitude")))
+    except (TypeError, ValueError):
+        return (None, None)
+
+
 def normalize(record: dict) -> dict:
     ld = record.get("ld_json", {})
     address = ld.get("address", {})
+    latitude, longitude = parse_coordinates(ld)
 
     price = parse_price(ld)
     area = parse_area(ld)
     rooms = parse_int(ld.get("numberOfRooms")) or parse_int(get_property(ld, "Number of rooms"))
     city = extract_city(record)
     description = record.get("description") or ""
+    transaction = record.get("transaction_type") or "sale"
 
     return {
         "source": record.get("source"),
         "source_url": record.get("source_url"),
+        "transaction_type": transaction,
         "title": record.get("title"),
         "description": description,
         "price": price,
@@ -156,6 +179,9 @@ def normalize(record: dict) -> dict:
         "city": city,
         "district": extract_district(record.get("page_title"), city),
         "market": detect_market(record),
-        "dedup_hash": make_dedup_hash(city, address.get("streetAddress"), area, rooms, price),
+        "image_urls": parse_images(ld),
+        "latitude": latitude,
+        "longitude": longitude,
+        "dedup_hash": make_dedup_hash(transaction, city, address.get("streetAddress"), area, rooms, price),
         "raw_json": record,
     }
