@@ -8,6 +8,13 @@ SortOption = Literal["newest", "price_asc", "price_desc", "area_asc", "area_desc
 class SearchFilters(BaseModel):
     transaction_type: Literal["sale", "rent"] = "sale"
 
+    # Budżet najemcy to czynsz PLUS opłata administracyjna, więc filtrowanie po
+    # samej cenie przepuszcza oferty, które realnie budżet przekraczają.
+    # Doliczanie na sztywno też byłoby złe: opłatę podaje tylko 80% ogłoszeń,
+    # a w pozostałych liczylibyśmy zero, czyli zaniżali. Stąd jawny wybór.
+    # Ignorowane przy sprzedaży — do ceny zakupu nie dolicza się opłat miesięcznych.
+    include_fees: bool = False
+
     q: str | None = Field(default=None, max_length=200, description="phrase in title or description")
 
     city: str | None = Field(default=None, max_length=128)

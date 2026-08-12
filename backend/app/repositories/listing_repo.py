@@ -39,17 +39,33 @@ def count(session: Session) -> int:
     return session.scalar(select(func.count()).select_from(Listing)) or 0
 
 
-SORT_CLAUSES = {
-    "newest": (Listing.created_at.desc(),),
-    "price_asc": (Listing.price.is_(None), Listing.price.asc()),
-    "price_desc": (Listing.price.is_(None), Listing.price.desc()),
-    "area_asc": (Listing.area.is_(None), Listing.area.asc()),
-    "area_desc": (Listing.area.is_(None), Listing.area.desc()),
-}
+def _price_column(filters: SearchFilters):
+    """Kolumna, po której filtrujemy i sortujemy ceny.
+
+    Przy wynajmie z włączonym `include_fees` to czynsz plus opłata
+    administracyjna. Brak opłaty liczymy jako zero — inaczej `NULL + liczba`
+    dałby NULL i oferta zniknęłaby z wyników, a lepiej pokazać ją zaniżoną
+    (i oznaczoną w UI jako „opłata nieznana") niż ukryć.
+    """
+    if filters.include_fees and filters.transaction_type == "rent":
+        return Listing.price + func.coalesce(Listing.monthly_fee, 0)
+    return Listing.price
+
+
+def _sort_clauses(filters: SearchFilters) -> tuple:
+    price = _price_column(filters)
+    return {
+        "newest": (Listing.created_at.desc(),),
+        "price_asc": (price.is_(None), price.asc()),
+        "price_desc": (price.is_(None), price.desc()),
+        "area_asc": (Listing.area.is_(None), Listing.area.asc()),
+        "area_desc": (Listing.area.is_(None), Listing.area.desc()),
+    }[filters.sort]
 
 
 def _conditions(filters: SearchFilters) -> list:
     conditions = [Listing.transaction_type == filters.transaction_type]
+    price = _price_column(filters)
 
     if filters.q:
         pattern = f"%{filters.q}%"
@@ -59,9 +75,9 @@ def _conditions(filters: SearchFilters) -> list:
     if filters.district:
         conditions.append(Listing.district == filters.district)
     if filters.price_min is not None:
-        conditions.append(Listing.price >= filters.price_min)
+        conditions.append(price >= filters.price_min)
     if filters.price_max is not None:
-        conditions.append(Listing.price <= filters.price_max)
+        conditions.append(price <= filters.price_max)
     if filters.area_min is not None:
         conditions.append(Listing.area >= filters.area_min)
     if filters.area_max is not None:
@@ -88,7 +104,7 @@ def search(session: Session, filters: SearchFilters) -> tuple[list[Listing], int
     statement = (
         select(Listing)
         .where(*conditions)
-        .order_by(*SORT_CLAUSES[filters.sort], Listing.id.desc())
+        .order_by(*_sort_clauses(filters), Listing.id.desc())
         .offset((filters.page - 1) * filters.page_size)
         .limit(filters.page_size)
     )
