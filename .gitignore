@@ -1,6 +1,7 @@
 .env
 notes.md
 reasoning_notes.md
+backend/check_intent.py
 .idea/
 __pycache__/
 .venv/
