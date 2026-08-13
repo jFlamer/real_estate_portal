@@ -14,21 +14,25 @@ UPSERT_COLUMNS = (
     "dedup_hash", "raw_json",
 )
 
+UPSERT_CHUNK = 50
+
+
 def upsert_many(session: Session, rows: list[dict]) -> tuple[int, int]:
     if not rows:
-        return (0,0)
+        return (0, 0)
 
     urls = [row["source_url"] for row in rows]
     known = set(
         session.scalars(select(Listing.source_url).where(Listing.source_url.in_(urls))).all()
     )
 
-    statement = insert(Listing).values(rows)
-    updates = {column: statement.inserted[column] for column in UPSERT_COLUMNS}
+    for start in range(0, len(rows), UPSERT_CHUNK):
+        chunk = rows[start : start + UPSERT_CHUNK]
+        statement = insert(Listing).values(chunk)
+        updates = {column: statement.inserted[column] for column in UPSERT_COLUMNS}
+        updates["updated_at"] = func.now()
+        session.execute(statement.on_duplicate_key_update(updates))
 
-    updates["updated_at"] = func.now()
-    statement = statement.on_duplicate_key_update(updates)
-    session.execute(statement)
     session.commit()
 
     updated = len(known)
@@ -40,13 +44,6 @@ def count(session: Session) -> int:
 
 
 def _price_column(filters: SearchFilters):
-    """Kolumna, po której filtrujemy i sortujemy ceny.
-
-    Przy wynajmie z włączonym `include_fees` to czynsz plus opłata
-    administracyjna. Brak opłaty liczymy jako zero — inaczej `NULL + liczba`
-    dałby NULL i oferta zniknęłaby z wyników, a lepiej pokazać ją zaniżoną
-    (i oznaczoną w UI jako „opłata nieznana") niż ukryć.
-    """
     if filters.include_fees and filters.transaction_type == "rent":
         return Listing.price + func.coalesce(Listing.monthly_fee, 0)
     return Listing.price

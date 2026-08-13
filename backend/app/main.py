@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from sqlalchemy.exc import OperationalError
 
-from app.api import listings
+from app.api import listings, search
 from app.config import settings
 
 logger = logging.getLogger(__name__)
@@ -20,6 +20,7 @@ app.add_middleware(
 )
 
 app.include_router(listings.router)
+app.include_router(search.router)
 
 
 @app.exception_handler(OperationalError)
