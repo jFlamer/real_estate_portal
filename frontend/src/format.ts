@@ -1,4 +1,4 @@
-import type { ListingSummary } from "./types";
+import type { Filters, ListingSummary } from "./types";
 
 const PLN = new Intl.NumberFormat("en-GB", {
   style: "currency",
@@ -16,13 +16,6 @@ export function formatPrice(
   return listing.price_status === "negotiable" ? `${price} (negotiable)` : price;
 }
 
-/** Total monthly outlay for a rental: rent plus the stated building fee.
- *
- *  Returns null when the listing does not state a fee — we say so explicitly
- *  rather than presenting the bare rent as if it were the full cost. The fee
- *  is stated in 80 of 100 rentals and its median is 700 PLN, so ignoring it
- *  understates the real budget by roughly a quarter.
- */
 export function formatMonthlyTotal(
   listing: Pick<ListingSummary, "price" | "monthly_fee" | "transaction_type">,
 ): string | null {
@@ -58,6 +51,35 @@ export function formatLayout(listing: Pick<ListingSummary, "rooms" | "bedrooms">
 
 function plural(count: number, noun: string): string {
   return `${count} ${noun}${count === 1 ? "" : "s"}`;
+}
+
+export function describeFilters(filters: Filters): string[] {
+  const parts: string[] = [];
+  const renting = filters.transaction_type === "rent";
+
+  parts.push(renting ? "to rent" : "for sale");
+  if (filters.city) parts.push(filters.city);
+  if (filters.bedrooms_min) parts.push(`${filters.bedrooms_min}+ separate bedrooms`);
+  if (filters.rooms_min) parts.push(`${filters.rooms_min}+ rooms`);
+  if (filters.open_kitchen === true) parts.push("open-plan kitchen");
+  if (filters.open_kitchen === false) parts.push("separate kitchen");
+
+  if (filters.area_min && filters.area_max) parts.push(`${filters.area_min}–${filters.area_max} m²`);
+  else if (filters.area_min) parts.push(`from ${filters.area_min} m²`);
+  else if (filters.area_max) parts.push(`up to ${filters.area_max} m²`);
+
+  const money = (value: number) => `PLN ${value.toLocaleString("en-GB")}`;
+  if (filters.price_min && filters.price_max) {
+    parts.push(`${money(filters.price_min)}–${money(filters.price_max)}`);
+  } else if (filters.price_min) parts.push(`from ${money(filters.price_min)}`);
+  else if (filters.price_max) parts.push(`up to ${money(filters.price_max)}`);
+
+  if (filters.include_fees) parts.push("fees included");
+  if (filters.q) parts.push(`mentioning "${filters.q}"`);
+  if (filters.sort === "price_asc") parts.push("cheapest first");
+  if (filters.sort === "price_desc") parts.push("most expensive first");
+
+  return parts;
 }
 
 export const MARKET_LABELS: Record<string, string> = {

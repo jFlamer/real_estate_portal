@@ -23,7 +23,12 @@ for query in QUERIES:
         print(f"[{response.status_code}] {query} -> {response.text[:200]}")
         continue
     body = response.json()
-    used = {k: v for k, v in body["filters"].items() if v not in (None, 1, 20, False)}
+    defaults = {"page": 1, "page_size": 20}
+    used = {
+        k: v
+        for k, v in body["filters"].items()
+        if v is not None and v is not False and defaults.get(k) != v
+    }
     print(f'"{query}"')
     print(f"   source: {body['source']}  results: {body['results']['total']}")
     print(f"   filters: {used}")

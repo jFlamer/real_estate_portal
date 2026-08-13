@@ -171,7 +171,7 @@ class GeminiIntentParser:
         except ValidationError as exc:
             logger.warning("intent JSON did not validate: %s", exc)
             return None
-        except Exception as exc:  # noqa: BLE001 — quota, network, API errors
+        except Exception as exc:
             logger.warning("intent parsing unavailable (%s), falling back to keywords", exc)
             return None
 
@@ -188,6 +188,7 @@ def parse_intent(query: str, parser: GeminiIntentParser | None) -> tuple[SearchF
     if parser is not None:
         intent = parser.parse(query)
         if intent is not None:
+            intent = _apply_lexical_overrides(intent, query)
             return to_search_filters(_sanity_check(intent)), "llm"
 
     return to_search_filters(_sanity_check(keyword_intent(query))), "keywords"

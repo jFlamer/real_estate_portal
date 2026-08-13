@@ -1,4 +1,11 @@
-import type { Filters, ListingDetail, ListingSummary, Page, TransactionType } from "../types";
+import type {
+  Filters,
+  IntentResponse,
+  ListingDetail,
+  ListingSummary,
+  Page,
+  TransactionType,
+} from "../types";
 
 const BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:8000";
 
@@ -20,10 +27,10 @@ export function toQueryString(filters: Filters): string {
   return params.toString();
 }
 
-async function request<T>(path: string): Promise<T> {
+async function request<T>(path: string, init?: RequestInit): Promise<T> {
   let response: Response;
   try {
-    response = await fetch(`${BASE_URL}${path}`);
+    response = await fetch(`${BASE_URL}${path}`, init);
   } catch {
     throw new ApiError("Could not reach the server", 0);
   }
@@ -49,6 +56,14 @@ export function fetchListings(filters: Filters): Promise<Page<ListingSummary>> {
 
 export function fetchListing(id: number): Promise<ListingDetail> {
   return request<ListingDetail>(`/listings/${id}`);
+}
+
+export function searchByIntent(query: string): Promise<IntentResponse> {
+  return request<IntentResponse>("/search/intent", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ query }),
+  });
 }
 
 export function fetchCities(transactionType: TransactionType): Promise<string[]> {

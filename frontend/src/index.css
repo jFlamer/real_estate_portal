@@ -293,6 +293,79 @@ a:focus-visible {
   line-height: 1.4;
 }
 
+/* free-text search sits above the results, not inside the filter panel:
+   it produces filters, it is not one of them */
+.intent {
+  margin-bottom: 1.25rem;
+  padding: 1rem 1.1rem;
+  background: var(--glass);
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.intent-label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.intent-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+}
+
+.intent-row button {
+  padding: 0.45rem 1.1rem;
+  border: 1px solid var(--clay);
+  border-radius: var(--radius-sm);
+  background: var(--clay);
+  color: var(--sand-050);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.intent-row button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.intent-hint,
+.intent-understood,
+.intent-error {
+  margin: 0.6rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.intent-hint {
+  color: var(--muted);
+}
+
+.intent-hint .link-button {
+  font-size: inherit;
+  text-align: left;
+}
+
+.intent-understood {
+  padding: 0.55rem 0.7rem;
+  background: rgba(154, 91, 57, 0.08);
+  border-left: 2px solid var(--clay);
+  color: var(--clay-dark);
+}
+
+.intent-fallback {
+  font-style: italic;
+  opacity: 0.85;
+}
+
+.intent-error {
+  color: #8c2f22;
+}
+
 .results-header {
   display: flex;
   flex-wrap: wrap;

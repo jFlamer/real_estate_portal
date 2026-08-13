@@ -119,6 +119,18 @@ class TestParseIntent:
         assert source == "keywords"
         assert filters.transaction_type == "rent"
 
+    def test_jednoznaczne_slowa_nadpisuja_model(self):
+        # model potrafi przeoczyć „including fees"; wyraźne sformułowanie wygrywa
+        parser = StubParser(IntentFilters(transaction_type="rent", price_max=4000))
+        filters, _ = parse_intent("up to 4000 including fees", parser)
+        assert filters.include_fees is True
+
+    def test_normalizuje_pisownie_miasta(self):
+        # bez ogonka trafia tylko przypadkiem, dzięki kolacji MySQL
+        parser = StubParser(IntentFilters(city="Krakow"))
+        filters, _ = parse_intent("flat in Krakow", parser)
+        assert filters.city == "Kraków"
+
     def test_odwrocone_widelki_sa_odrzucane(self):
         # sprzeczne granice dałyby zero wyników bez wyjaśnienia
         parser = StubParser(IntentFilters(price_min=9000, price_max=3000))

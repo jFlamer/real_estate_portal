@@ -17,7 +17,6 @@ export interface ListingSummary {
   title: string | null;
   price: number | null;
   price_status: PriceStatus;
-  /** Building/admin fee as stated in the listing; null means it is not stated. */
   monthly_fee: number | null;
   area: number | null;
   rooms: number | null;
@@ -31,7 +30,6 @@ export interface ListingSummary {
   city: string | null;
   district: string | null;
   market: Market;
-  /** URLs on the portal's CDN — photos are linked, never rehosted. */
   image_urls: string[];
   source_url: string;
 }
@@ -43,6 +41,12 @@ export interface ListingDetail extends ListingSummary {
   latitude: number | null;
   longitude: number | null;
   created_at: string;
+}
+
+export interface IntentResponse {
+  filters: Filters;
+  source: "llm" | "keywords";
+  results: Page<ListingSummary>;
 }
 
 export interface Page<T> {
@@ -60,7 +64,6 @@ export interface Filters {
   district?: string;
   price_min?: number;
   price_max?: number;
-  /** Rent only: compare the budget against rent + building fee. */
   include_fees?: boolean;
   area_min?: number;
   area_max?: number;

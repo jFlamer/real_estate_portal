@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 
 import { ApiError, fetchCities, fetchListings } from "../api/client";
 import { Filters } from "../components/Filters";
+import { IntentSearch } from "../components/IntentSearch";
 import { ListingCard } from "../components/ListingCard";
 import { Pagination } from "../components/Pagination";
 import type {
@@ -47,7 +48,10 @@ function parseFilters(params: URLSearchParams): FilterValues {
 function toParams(filters: FilterValues): URLSearchParams {
   const params = new URLSearchParams();
   for (const [key, value] of Object.entries(filters)) {
-    if (value === undefined || value === "") continue;
+    // null matters as much as undefined here: the intent endpoint returns
+    // explicit nulls for everything it did not set, and String(null) is "null",
+    // which would end up in the URL as a literal search term
+    if (value === undefined || value === null || value === "") continue;
     params.set(key, String(value));
   }
   return params;
@@ -113,6 +117,13 @@ export function AllListingsPage() {
     [transaction, setSearchParams],
   );
 
+  const applyIntent = useCallback(
+    (next: FilterValues) => {
+      setSearchParams(toParams({ ...next, page: undefined, page_size: undefined }));
+    },
+    [setSearchParams],
+  );
+
   return (
     <div className="layout">
       <Filters
@@ -123,6 +134,8 @@ export function AllListingsPage() {
       />
 
       <main className="results">
+        <IntentSearch onFilters={applyIntent} />
+
         <header className="results-header">
           <h1>{transaction === "rent" ? "Apartments to rent" : "Apartments for sale"}</h1>
           {data && !loading && (
