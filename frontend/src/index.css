@@ -325,13 +325,15 @@ a:focus-visible {
   flex-direction: column;
   gap: 0.3rem;
   padding: 1.1rem;
-  transition: transform 140ms ease, box-shadow 140ms ease, background-color 140ms ease;
+  transition: box-shadow 140ms ease, background-color 140ms ease, border-color 140ms ease;
 }
 
+/* karty nie ruszają się pod kursorem — sama zmiana tła i obramowania
+   wystarczy za informację zwrotną, a siatka zostaje nieruchoma */
 .card:hover {
-  transform: translateY(-2px);
   background: var(--glass-strong);
-  box-shadow: 0 2px 4px rgba(70, 52, 34, 0.06), 0 16px 34px -20px rgba(70, 52, 34, 0.55);
+  border-color: var(--border-strong);
+  box-shadow: 0 2px 4px rgba(70, 52, 34, 0.06), 0 14px 30px -22px rgba(70, 52, 34, 0.5);
 }
 
 .card-link {
@@ -587,9 +589,5 @@ a:focus-visible {
   input,
   select {
     transition: none;
-  }
-
-  .card:hover {
-    transform: none;
   }
 }

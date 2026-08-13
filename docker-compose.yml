@@ -14,5 +14,27 @@ services:
       timeout: 3s
       retries: 10
 
+  backend:
+    build: ./backend
+    environment:
+      DATABASE_URL: mysql+pymysql://root:devpass@mysql:3306/listings
+      CORS_ORIGINS: http://localhost:5173
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+    ports:
+      - "8000:8000"
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: http://localhost:8000
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
 volumes:
   mysql_data:
